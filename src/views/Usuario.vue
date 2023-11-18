@@ -15,7 +15,7 @@
             <div class="column">
                 <div class="lanches-e-monte-o-seu">
                     <h3>Nossos lanches:</h3>
-                    <h3 class="animacao-cor">+ Monte o seu próprio</h3>
+                    <h3 class="animacao-cor" @click="abrirModal()">+ Monte o seu próprio</h3>
                 </div>
 
                 <div class="lista-de-cards">
@@ -48,6 +48,7 @@
                 </div>
             </div>
         </div>
+        <ModalMontarSeuLanche :is-active="this.exibindoModal" @close="fecharModal()"/>
     </div>
 </template>
 
@@ -56,12 +57,18 @@
 import API_URL from '../service/API_URL.js';
 import convertePreco from '../utils/convertePreco.js'
 import formataListaIngredientes from '../utils/formataListaIngredientes.js'
+import ModalMontarSeuLanche from '../components/ModalMontarSeuLanche.vue'
 
 export default {
+    components: {
+        ModalMontarSeuLanche
+    },
+
     data() {
         return {
             lanches: null,
-            promocoes: null
+            promocoes: null,
+            exibindoModal: false
         };
     },
 
@@ -92,6 +99,14 @@ export default {
 
         formatarListaIngredientes(ingredientes) {
             return formataListaIngredientes(ingredientes)
+        },
+
+        abrirModal() {
+            this.exibindoModal = true
+        },
+
+        fecharModal() {
+            this.exibindoModal = false
         }
     },
 
