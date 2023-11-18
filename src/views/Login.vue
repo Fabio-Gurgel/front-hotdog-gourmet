@@ -7,10 +7,10 @@
             Entrar como:
 
             <div class="botoes">
-                <button>
+                <button class="botao-de-login">
                     Usuário comum
                 </button>
-                <button>
+                <button class="botao-de-login">
                     Administrador
                 </button>
             </div>
@@ -50,8 +50,15 @@
 }
 
 .botoes {
+    margin-top: 40px;
+    height: 90px;
+    justify-content: space-between;
     display: flex;
     flex-direction: column;
+}
+
+.botao-de-login {
+    width: 200px;
 }
 
 </style>

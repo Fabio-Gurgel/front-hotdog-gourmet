@@ -25,10 +25,13 @@ export default {
 * {
   margin: 0px;
   padding: 0px;
+  color: #363636;
 }
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
+  background: url('./assets/background.png') repeat;
+  background-size: 70px;
 }
 
 body {
