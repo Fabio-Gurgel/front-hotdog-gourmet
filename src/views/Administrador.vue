@@ -10,4 +10,8 @@
 
 <style scoped>
 
+.tela-de-admin {
+    height: 100vh;
+}
+
 </style>

@@ -10,4 +10,8 @@
 
 <style scoped>
 
+.tela-de-usuario {
+    height: 100vh;
+}
+
 </style>

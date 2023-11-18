@@ -1,20 +1,25 @@
 <template>
   <div>
+    <HeaderComponent v-if="!$route.meta.esconderHeader"/>
     <RouterView/>
   </div>
 </template>
 
 <script>
 
+import HeaderComponent from '../src/components/Header.vue'
 
 export default {
   name: 'App',
   components: {
+    HeaderComponent
   }
 }
 </script>
 
 <style>
+
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 
 :root {
   --cor-de-fundo: #F4F4F4;
@@ -38,6 +43,12 @@ body {
   background-color: var(--cor-de-fundo);
 }
 
+h1 {
+  color: white;
+  font-size: larger;
+  font-family: 'Lobster', sans-serif;
+}
+
 button {
   background-color: var(--cor-primaria);
   cursor: pointer;
@@ -52,6 +63,10 @@ button {
 
 button:hover {
   background-color: var(--cor-secundaria);
+}
+
+header {
+  background-color: var(--cor-primaria);
 }
 
 

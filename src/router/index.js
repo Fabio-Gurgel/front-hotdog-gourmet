@@ -8,7 +8,10 @@ const routes = [
   {
     path: '/',
     name: 'Login',
-    component: Login
+    component: Login,
+    meta: {
+      esconderHeader: true
+    }
   },
   {
     path: '/admin',
