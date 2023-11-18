@@ -12,7 +12,7 @@
             <div class="column">
                 <h3>Nossos lanches:</h3>
 
-                <div class="lanche-card">
+                <div class="card vermelho">
                     <div class="icone-e-nome">
                         <fa icon="hotdog"/>
                         <h4>Completo</h4>
@@ -25,6 +25,17 @@
             </div>
             <div class="column">
                 <h3>Nossas promoções:</h3>
+
+                <div class="card preto">
+                    <div class="icone-e-nome">
+                        <fa icon="comment-dollar"/>
+                        <h4>Completo + Refri 300ml</h4>
+                    </div>
+                    <p>Lanche completo com salsicha ou linguiça com refrigerante de 300ml à escolha do cliente. </p>
+                    <div class="preco">
+                        <span>R$ 13,00</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -94,11 +105,18 @@ h4 {
     height: 370px;
 }
 
-.lanche-card {
-    background-color: var(--cor-primaria);
+.card {
     padding: 15px;
     color: white;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+
+.vermelho {
+  background-color: var(--cor-primaria);
+}
+
+.preto {
+  background-color: rgb(43, 43, 43);
 }
 
 .lanche-card > h2{
