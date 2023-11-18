@@ -13,30 +13,37 @@
         </div>
         <div class="lanche-e-promocao mt-5">
             <div class="column">
-                <h3>Nossos lanches:</h3>
+                <div>
+                    <h3>Nossos lanches:</h3>
+                    <span class="animacao-cor">Monte o seu próprio!</span>
+                </div>
 
-                <div class="card vermelho" v-for="lanche in this.lanches" :key="lanche.id">
-                    <div class="icone-e-nome">
-                        <fa icon="hotdog" />
-                        <h4> {{ lanche.nome }}</h4>
-                    </div>
-                    <p>{{ formatarListaIngredientes(lanche.ingredientes) }}</p>
-                    <div class="preco">
-                        <span>{{ converterPreco(lanche.preco) }}</span>
+                <div class="lista-de-cards">
+                    <div class="card vermelho" v-for="lanche in this.lanches" :key="lanche.id">
+                        <div class="icone-e-nome">
+                            <fa icon="hotdog" />
+                            <h4> {{ lanche.nome }}</h4>
+                        </div>
+                        <p>{{ formatarListaIngredientes(lanche.ingredientes) }}</p>
+                        <div class="preco">
+                            <span>{{ converterPreco(lanche.preco) }}</span>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="column">
                 <h3>Nossas promoções:</h3>
 
-                <div class="card preto">
-                    <div class="icone-e-nome">
-                        <fa icon="comment-dollar" />
-                        <h4>Completo + Refri 300ml</h4>
-                    </div>
-                    <p>Lanche completo com salsicha ou linguiça com refrigerante de 300ml à escolha do cliente. </p>
-                    <div class="preco">
-                        <span>R$ 13,00</span>
+                <div class="lista-de-cards">
+                    <div class="card preto"  v-for="promocao in this.promocoes" :key="promocao.id">
+                        <div class="icone-e-nome">
+                            <fa icon="comment-dollar" />
+                            <h4> {{ promocao.nome }}</h4>
+                        </div>
+                        <p> {{ promocao.descricao }}</p>
+                        <div class="preco">
+                            <span>{{ converterPreco(promocao.preco) }}</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -54,6 +61,7 @@ export default {
     data() {
         return {
             lanches: null,
+            promocoes: null
         };
     },
 
@@ -63,6 +71,16 @@ export default {
                 const response = await fetch(`${API_URL}/lanches`);
                 const jsonData = await response.json();
                 this.lanches = jsonData;
+            } catch (error) {
+                console.error('Erro ao obter dados do backend: ', error);
+            }
+        },
+
+        async carregarPromocoes() {
+            try {
+                const response = await fetch(`${API_URL}/promocoes`);
+                const jsonData = await response.json();
+                this.promocoes = jsonData;
             } catch (error) {
                 console.error('Erro ao obter dados do backend: ', error);
             }
@@ -79,12 +97,26 @@ export default {
 
     created() {
         this.carregarLanches();
+        this.carregarPromocoes();
     }
 }
 
 </script>
 
 <style scoped>
+
+@keyframes mudarCor {
+  0%   { color: red; }
+  25%  { color: blue; }
+  50%  { color: green; }
+  75%  { color: orange; }
+  100% { color: red; }
+}
+
+.animacao-cor {
+  animation: mudarCor 5s linear infinite; /* Muda de cor a cada 5 segundos */
+}
+
 .tela-de-usuario {
     height: 100vh;
 }
@@ -143,10 +175,17 @@ h4 {
     height: 370px;
 }
 
+.lista-de-cards {
+    max-height: 280px; 
+    overflow-y: auto;
+    padding-right: 40px;
+}
+
 .card {
     padding: 15px;
     color: white;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    margin-bottom: 10px;
 }
 
 .vermelho {
@@ -155,12 +194,6 @@ h4 {
 
 .preto {
     background-color: rgb(43, 43, 43);
-}
-
-.lanche-card>h2 {
-    font-size: larger;
-    font-family: 'Lobster', sans-serif;
-    cursor: default;
 }
 
 .icone-e-nome {
