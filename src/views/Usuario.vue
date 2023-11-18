@@ -15,14 +15,14 @@
             <div class="column">
                 <h3>Nossos lanches:</h3>
 
-                <div class="card vermelho">
+                <div class="card vermelho" v-for="lanche in this.lanches" :key="lanche.id">
                     <div class="icone-e-nome">
                         <fa icon="hotdog" />
-                        <h4>Completo</h4>
+                        <h4> {{ lanche.nome }}</h4>
                     </div>
-                    <p>Pão, molho, salsicha, batata-palha e milho. </p>
+                    <p>{{ formatarListaIngredientes(lanche.ingredientes) }}</p>
                     <div class="preco">
-                        <span>R$ 10,00</span>
+                        <span>{{ converterPreco(lanche.preco) }}</span>
                     </div>
                 </div>
             </div>
@@ -47,6 +47,8 @@
 <script>
 
 import API_URL from '../service/API_URL.js';
+import convertePreco from '../utils/convertePreco.js'
+import formataListaIngredientes from '../utils/formataListaIngredientes.js'
 
 export default {
     data() {
@@ -64,6 +66,14 @@ export default {
             } catch (error) {
                 console.error('Erro ao obter dados do backend: ', error);
             }
+        },
+
+        converterPreco(preco) {
+           return convertePreco(preco);
+        },
+
+        formatarListaIngredientes(ingredientes) {
+            return formataListaIngredientes(ingredientes)
         }
     },
 
