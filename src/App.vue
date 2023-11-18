@@ -47,6 +47,7 @@ h1 {
   color: white;
   font-size: larger;
   font-family: 'Lobster', sans-serif;
+  cursor: default;
 }
 
 button {
@@ -67,6 +68,10 @@ button:hover {
 
 header {
   background-color: var(--cor-primaria);
+}
+
+.icone {
+  color: white;
 }
 
 
