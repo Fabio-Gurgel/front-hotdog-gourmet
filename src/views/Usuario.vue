@@ -13,9 +13,9 @@
         </div>
         <div class="lanche-e-promocao mt-5">
             <div class="column">
-                <div>
+                <div class="lanches-e-monte-o-seu">
                     <h3>Nossos lanches:</h3>
-                    <span class="animacao-cor">Monte o seu próprio!</span>
+                    <h3 class="animacao-cor">+ Monte o seu próprio</h3>
                 </div>
 
                 <div class="lista-de-cards">
@@ -35,7 +35,7 @@
                 <h3>Nossas promoções:</h3>
 
                 <div class="lista-de-cards">
-                    <div class="card preto"  v-for="promocao in this.promocoes" :key="promocao.id">
+                    <div class="card preto" v-for="promocao in this.promocoes" :key="promocao.id">
                         <div class="icone-e-nome">
                             <fa icon="comment-dollar" />
                             <h4> {{ promocao.nome }}</h4>
@@ -87,7 +87,7 @@ export default {
         },
 
         converterPreco(preco) {
-           return convertePreco(preco);
+            return convertePreco(preco);
         },
 
         formatarListaIngredientes(ingredientes) {
@@ -104,17 +104,31 @@ export default {
 </script>
 
 <style scoped>
-
 @keyframes mudarCor {
-  0%   { color: red; }
-  25%  { color: blue; }
-  50%  { color: green; }
-  75%  { color: orange; }
-  100% { color: red; }
+    0% {
+        color: var(--cor-primaria);
+    }
+
+    25% {
+        color: rgb(202, 24, 0);
+    }
+
+    50% {
+        color: rgb(255, 100, 10);
+    }
+
+    75% {
+        color: rgb(255, 166, 0);
+    }
+
+    100% {
+        color: var(--cor-primaria);
+    }
 }
 
 .animacao-cor {
-  animation: mudarCor 5s linear infinite; /* Muda de cor a cada 5 segundos */
+    cursor: pointer;
+    animation: mudarCor 5s linear infinite;
 }
 
 .tela-de-usuario {
@@ -167,6 +181,12 @@ h4 {
     gap: 10px;
 }
 
+.lanches-e-monte-o-seu {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 .column {
     border-radius: 8px;
     padding: 30px;
@@ -176,7 +196,7 @@ h4 {
 }
 
 .lista-de-cards {
-    max-height: 280px; 
+    max-height: 280px;
     overflow-y: auto;
     padding-right: 40px;
 }
@@ -201,5 +221,4 @@ h4 {
     flex-direction: row;
     align-items: center;
     gap: 5px;
-}
-</style>
+}</style>
