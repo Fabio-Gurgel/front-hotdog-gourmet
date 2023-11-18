@@ -5,13 +5,20 @@
             <h1>HotDog Gourmet</h1>
         </div>
 
-        SAIR
-
+        <fa class="icone" icon="right-from-bracket" @click="redirecionarParaTelaDeLogin()"/>
     </header>
 
 </template>
 
 <script>
+
+export default {
+  methods: {
+    redirecionarParaTelaDeLogin() {
+      this.$router.push('/');
+    }
+  }
+}
 
 </script>
 
@@ -22,6 +29,7 @@ header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
     padding-left: 50px;
     padding-right: 50px;
 }
@@ -39,5 +47,12 @@ header {
     font-size: x-large;
     gap: 10px;
 }
+
+.icone {
+    height: 30px;
+    width: 30px;
+    cursor: pointer;
+    color: white;
+}  
 
 </style>

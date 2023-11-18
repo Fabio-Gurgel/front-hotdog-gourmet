@@ -22,15 +22,15 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 
 :root {
-  --cor-de-fundo: #F4F4F4;
-  --cor-primaria: #ce2828;
+  --cor-de-fundo: #fafafa;
+  --cor-primaria: #c22d2d;
   --cor-secundaria: #af2525;
+  --cor-terciaria: #c9c9c9;
 }
 
 * {
   margin: 0px;
   padding: 0px;
-  color: #363636;
 }
 
 #app {
