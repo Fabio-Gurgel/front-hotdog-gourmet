@@ -5,7 +5,10 @@
                 Bem-vindo ao HotDog Gourmet de Teresópolis!
             </h2>
             <p>
-                Descubra sabores extraordinários em cada mordida. Conheça nossos lanches exclusivos, preparados com ingredientes frescos e receitas secretas. Aproveite as promoções especiais que preparamos para você. No HotDog Gourmet, tradição e inovação se encontram para proporcionar uma experiência única. Estamos ansiosos para servir você!
+                Descubra sabores extraordinários em cada mordida. Conheça nossos lanches exclusivos, preparados com
+                ingredientes frescos e receitas secretas. Aproveite as promoções especiais que preparamos para você. No
+                HotDog Gourmet, tradição e inovação se encontram para proporcionar uma experiência única. Estamos ansiosos
+                para servir você!
             </p>
         </div>
         <div class="lanche-e-promocao mt-5">
@@ -14,7 +17,7 @@
 
                 <div class="card vermelho">
                     <div class="icone-e-nome">
-                        <fa icon="hotdog"/>
+                        <fa icon="hotdog" />
                         <h4>Completo</h4>
                     </div>
                     <p>Pão, molho, salsicha, batata-palha e milho. </p>
@@ -28,7 +31,7 @@
 
                 <div class="card preto">
                     <div class="icone-e-nome">
-                        <fa icon="comment-dollar"/>
+                        <fa icon="comment-dollar" />
                         <h4>Completo + Refri 300ml</h4>
                     </div>
                     <p>Lanche completo com salsicha ou linguiça com refrigerante de 300ml à escolha do cliente. </p>
@@ -43,10 +46,35 @@
 
 <script>
 
+import API_URL from '../service/API_URL.js';
+
+export default {
+    data() {
+        return {
+            lanches: null,
+        };
+    },
+
+    methods: {
+        async carregarLanches() {
+            try {
+                const response = await fetch(`${API_URL}/lanches`);
+                const jsonData = await response.json();
+                this.lanches = jsonData;
+            } catch (error) {
+                console.error('Erro ao obter dados do backend: ', error);
+            }
+        }
+    },
+
+    created() {
+        this.carregarLanches();
+    }
+}
+
 </script>
 
 <style scoped>
-
 .tela-de-usuario {
     height: 100vh;
 }
@@ -61,15 +89,15 @@
 p {
     font-style: italic;
     cursor: default;
- }
+}
 
 h2 {
-   font-size: x-large;
-   margin-bottom: 10px;
-   font-weight: 500;
-   font-family: 'Lobster', sans-serif;
-   cursor: default;
-   color: var(--cor-primaria);
+    font-size: x-large;
+    margin-bottom: 10px;
+    font-weight: 500;
+    font-family: 'Lobster', sans-serif;
+    cursor: default;
+    color: var(--cor-primaria);
 }
 
 h3 {
@@ -112,14 +140,14 @@ h4 {
 }
 
 .vermelho {
-  background-color: var(--cor-primaria);
+    background-color: var(--cor-primaria);
 }
 
 .preto {
-  background-color: rgb(43, 43, 43);
+    background-color: rgb(43, 43, 43);
 }
 
-.lanche-card > h2{
+.lanche-card>h2 {
     font-size: larger;
     font-family: 'Lobster', sans-serif;
     cursor: default;
@@ -131,5 +159,4 @@ h4 {
     align-items: center;
     gap: 5px;
 }
-
 </style>
