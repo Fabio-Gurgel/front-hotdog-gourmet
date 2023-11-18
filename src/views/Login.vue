@@ -7,10 +7,10 @@
             Entrar como:
 
             <div class="botoes">
-                <button class="botao-de-login">
+                <button class="botao-de-login" @click="redirecionarParaTelaDeUsuario()">
                     Usuário comum
                 </button>
-                <button class="botao-de-login">
+                <button class="botao-de-login" @click="redirecionarParaTelaDeAdmin()">
                     Administrador
                 </button>
             </div>
@@ -19,6 +19,18 @@
 </template>
 
 <script>
+
+export default {
+  methods: {
+    redirecionarParaTelaDeUsuario() {
+      this.$router.push('/usuario');
+    },
+
+    redirecionarParaTelaDeAdmin() {
+      this.$router.push('/admin');
+    }
+  }
+}
 
 </script>
 
@@ -42,6 +54,7 @@
     padding: 10px;
     align-items: center;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    font-size: large;
 }
 
 .logo {
