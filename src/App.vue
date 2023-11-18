@@ -70,9 +70,4 @@ header {
   background-color: var(--cor-primaria);
 }
 
-.icone {
-  color: white;
-}
-
-
 </style>
