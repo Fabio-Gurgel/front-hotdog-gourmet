@@ -10,10 +10,21 @@
         </div>
         <div class="lanche-e-promocao mt-5">
             <div class="column">
-                Nossos lanches:
+                <h3>Nossos lanches:</h3>
+
+                <div class="lanche-card">
+                    <div class="icone-e-nome">
+                        <fa icon="hotdog"/>
+                        <h4>Completo</h4>
+                    </div>
+                    <p>Pão, molho, salsicha, batata-palha e milho. </p>
+                    <div class="preco">
+                        <span>R$ 10,00</span>
+                    </div>
+                </div>
             </div>
             <div class="column">
-                Nossas promoções:
+                <h3>Nossas promoções:</h3>
             </div>
         </div>
     </div>
@@ -36,17 +47,38 @@
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 
-.bem-vindo-container > h2 {
-    font-size: x-large;
-    text-decoration: underline;
-    text-decoration-color: var(--cor-primaria);
-    margin-bottom: 10px;
-    font-weight: 500;
+p {
+    font-style: italic;
+    cursor: default;
+ }
+
+h2 {
+   font-size: x-large;
+   margin-bottom: 10px;
+   font-weight: 500;
+   font-family: 'Lobster', sans-serif;
+   cursor: default;
+   color: var(--cor-primaria);
 }
 
-.bem-vindo-container > p {
-    font-style: italic;
+h3 {
+    font-size: larger;
+    font-family: 'Lobster', sans-serif;
+    color: var(--cor-primaria);
+    margin-bottom: 15px;
 }
+
+h4 {
+    font-size: large;
+    font-family: 'Lobster', sans-serif;
+}
+
+.preco {
+    display: flex;
+    flex-direction: row-reverse;
+    font-family: 'Lobster', sans-serif;
+}
+
 
 .lanche-e-promocao {
     display: flex;
@@ -60,6 +92,26 @@
     background-color: white;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     height: 370px;
+}
+
+.lanche-card {
+    background-color: var(--cor-primaria);
+    padding: 15px;
+    color: white;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+
+.lanche-card > h2{
+    font-size: larger;
+    font-family: 'Lobster', sans-serif;
+    cursor: default;
+}
+
+.icone-e-nome {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
 }
 
 </style>
