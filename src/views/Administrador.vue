@@ -31,7 +31,7 @@
             <div class="column">
                 <div class="column-header">
                     <h3>Lanches:</h3>
-                    <h3 class="novo" @click="abrirModal()">+ Novo lanche</h3>
+                    <h3 class="novo" @click="abrirModalLanche()">+ Novo lanche</h3>
                 </div>
 
                 <div class="lista-de-cards">
@@ -77,6 +77,8 @@
         </div>
         <ModalCriarEditarIngrediente :is-active="this.exibindoModalIngrediente" @close="fecharModal()"
             @request="carregarIngredientes()" :idIngrediente="this.idDoIngredienteQueSeraEditado" />
+        <ModalCriarEditarLanche :is-active="this.exibindoModalLanche" @close="fecharModal()"
+            @request="carregarLanches()" :idLanche="this.idDoLancheQueSeraEditado"/>
     </div>
 </template>
 
@@ -86,10 +88,12 @@ import API_URL from '../service/API_URL.js';
 import convertePreco from '../utils/convertePreco.js'
 import formataListaIngredientes from '../utils/formataListaIngredientes.js'
 import ModalCriarEditarIngrediente from '../components/ModalCriarEditarIngrediente.vue'
+import ModalCriarEditarLanche from '@/components/ModalCriarEditarLanche.vue';
 
 export default {
     components: {
-        ModalCriarEditarIngrediente
+        ModalCriarEditarIngrediente,
+        ModalCriarEditarLanche
     },
 
     data() {
@@ -98,7 +102,9 @@ export default {
             promocoes: null,
             ingredientes: null,
             exibindoModalIngrediente: false,
-            idDoIngredienteQueSeraEditado: null
+            exibindoModalLanche: false,
+            idDoIngredienteQueSeraEditado: null,
+            idDoLancheQueSeraEditado: null
         };
     },
 
@@ -146,8 +152,14 @@ export default {
             this.exibindoModalIngrediente = true
         },
 
+        abrirModalLanche(id){
+            this.idDoLancheQueSeraEditado = id
+            this.exibindoModalLanche = true
+        },
+
         fecharModal() {
             this.exibindoModalIngrediente = false
+            this.exibindoModalLanche = false
             this.idDoIngredienteQueSeraEditado = null
         }
     },
