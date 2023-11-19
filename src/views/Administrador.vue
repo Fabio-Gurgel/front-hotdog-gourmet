@@ -32,7 +32,6 @@
             <div class="column">
                 <div class="column-header">
                     <h3>Lanches:</h3>
-                    <h3 class="novo" @click="abrirModalLanche()">+ Novo lanche</h3>
                 </div>
 
                 <div class="lista-de-cards">
@@ -44,8 +43,6 @@
                         <p>{{ formatarListaIngredientes(lanche.ingredientes) }}</p>
                         <div class="card-footer-">
                             <div class="editar-excluir">
-                                <fa class="icone" icon="pen-to-square" />
-                                <fa class="icone" icon="trash" @click="temCertezaDeQueDesejaExcluirLanche(lanche.id)"/>
                             </div>
                             <span>{{ converterPreco(lanche.preco) }}</span>
                         </div>
@@ -55,7 +52,7 @@
             <div class="column">
                 <div class="column-header">
                     <h3>Promoções:</h3>
-                    <h3 class="novo" @click="abrirModal()">+ Nova promoção</h3>
+                    <h3 class="novo" @click="abrirModalPromocao()">+ Nova promoção</h3>
                 </div>
 
                 <div class="lista-de-cards">
@@ -68,7 +65,7 @@
                         <div class="card-footer-">
                             <div class="editar-excluir">
                                 <fa class="icone" icon="pen-to-square" />
-                                <fa class="icone" icon="trash" @click="temCertezaDeQueDesejaExcluirPromocao(promocao.id)"/>
+                                <fa class="icone" icon="trash" @click="temCertezaDeQueDesejaExcluirPromocao(promocao.id)" />
                             </div>
                             <span>{{ converterPreco(promocao.preco) }}</span>
                         </div>
@@ -78,23 +75,24 @@
         </div>
         <ModalCriarEditarIngrediente :is-active="this.exibindoModalIngrediente" @close="fecharModal()"
             @request="carregarIngredientes()" :idIngrediente="this.idDoIngredienteQueSeraEditado" />
-        <ModalCriarEditarLanche :is-active="this.exibindoModalLanche" @close="fecharModal()" @request="carregarLanches()"
-            :idLanche="this.idDoLancheQueSeraEditado" />
+
+        <ModalCriarEditarPromocao :is-active="this.exibindoModalPromocao" @close="fecharModal()"
+            @request="carregarPromocoes()" :idPromocao="this.idDaPromocaoQueSeraEditada" />
     </div>
 </template>
 
 <script>
 
 import API_URL from '../service/API_URL.js';
-import convertePreco from '../utils/convertePreco.js'
-import formataListaIngredientes from '../utils/formataListaIngredientes.js'
-import ModalCriarEditarIngrediente from '../components/ModalCriarEditarIngrediente.vue'
-import ModalCriarEditarLanche from '@/components/ModalCriarEditarLanche.vue';
+import convertePreco from '../utils/convertePreco.js';
+import formataListaIngredientes from '../utils/formataListaIngredientes.js';
+import ModalCriarEditarIngrediente from '../components/ModalCriarEditarIngrediente.vue';
+import ModalCriarEditarPromocao from '@/components/ModalCriarEditarPromocao.vue';
 
 export default {
     components: {
         ModalCriarEditarIngrediente,
-        ModalCriarEditarLanche
+        ModalCriarEditarPromocao
     },
 
     data() {
@@ -103,9 +101,9 @@ export default {
             promocoes: null,
             ingredientes: null,
             exibindoModalIngrediente: false,
-            exibindoModalLanche: false,
+            exibindoModalPromocao: false,
             idDoIngredienteQueSeraEditado: null,
-            idDoLancheQueSeraEditado: null
+            idDaPromocaoQueSeraEditada: null
         };
     },
 
@@ -162,43 +160,12 @@ export default {
                     const erro = await response.json();
                     throw new Error(erro.mensagem);
                 }
-                
+
                 this.carregarIngredientes();
                 window.alert("Ingrediente excluído com sucesso!");
 
             } catch (error) {
                 window.alert("Não é possível excluir excluir um ingrediente presente em um lanche.");
-            }
-        },
-
-        temCertezaDeQueDesejaExcluirLanche(id) {
-            const confirmacao = window.confirm('Tem certeza que deseja excluir este lanche?');
-
-            if (confirmacao) {
-                this.deletarLanche(id);
-            }
-        },
-
-        async deletarLanche(id) {
-            try {
-                const response = await fetch(`${API_URL}/lanches/${id}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-
-                });
-
-                if (!response.ok) {
-                    const erro = await response.json();
-                    throw new Error(erro.mensagem);
-                }
-                
-                this.carregarLanches();
-                window.alert("Lanche excluído com sucesso!");
-
-            } catch (error) {
-                window.alert("Não é possível excluir um lanche presente em uma promoção.");
             }
         },
 
@@ -224,7 +191,7 @@ export default {
                     const erro = await response.json();
                     throw new Error(erro.mensagem);
                 }
-                
+
                 this.carregarPromocoes();
                 window.alert("Promoção excluída com sucesso!");
 
@@ -246,15 +213,16 @@ export default {
             this.exibindoModalIngrediente = true
         },
 
-        abrirModalLanche(id) {
-            this.idDoLancheQueSeraEditado = id
-            this.exibindoModalLanche = true
+        abrirModalPromocao(id) {
+            this.idDaPromocaoQueSeraEditada = id
+            this.exibindoModalPromocao = true
         },
 
         fecharModal() {
             this.exibindoModalIngrediente = false
-            this.exibindoModalLanche = false
             this.idDoIngredienteQueSeraEditado = null
+            this.exibindoModalPromocao = false
+            this.idDaPromocaoQueSeraEditada = null
         }
     },
 
