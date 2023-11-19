@@ -9,7 +9,7 @@
             <div class="column">
                 <div class="column-header">
                     <h3>Ingredientes:</h3>
-                    <h3 @click="abrirModal()">+ Novo ingrediente</h3>
+                    <h3 class="novo" @click="abrirModal()">+ Novo ingrediente</h3>
                 </div>
 
                 <div class="lista-de-cards">
@@ -18,7 +18,11 @@
                             <fa icon="bacon" />
                             <h4> {{ ingrediente.nome }}</h4>
                         </div>
-                        <div class="preco">
+                        <div class="card-footer-">
+                            <div class="editar-excluir">
+                                <fa class="icone" icon="pen-to-square" />
+                                <fa class="icone" icon="trash" />
+                            </div>
                             <span>{{ converterPreco(ingrediente.preco) }}</span>
                         </div>
                     </div>
@@ -27,7 +31,7 @@
             <div class="column">
                 <div class="column-header">
                     <h3>Lanches:</h3>
-                    <h3 @click="abrirModal()">+ Novo lanche</h3>
+                    <h3 class="novo" @click="abrirModal()">+ Novo lanche</h3>
                 </div>
 
                 <div class="lista-de-cards">
@@ -37,7 +41,11 @@
                             <h4> {{ lanche.nome }}</h4>
                         </div>
                         <p>{{ formatarListaIngredientes(lanche.ingredientes) }}</p>
-                        <div class="preco">
+                        <div class="card-footer-">
+                            <div class="editar-excluir">
+                                <fa class="icone" icon="pen-to-square" />
+                                <fa class="icone" icon="trash" />
+                            </div>
                             <span>{{ converterPreco(lanche.preco) }}</span>
                         </div>
                     </div>
@@ -46,7 +54,7 @@
             <div class="column">
                 <div class="column-header">
                     <h3>Promoções:</h3>
-                    <h3 @click="abrirModal()">+ Nova promoção</h3>
+                    <h3 class="novo" @click="abrirModal()">+ Nova promoção</h3>
                 </div>
 
                 <div class="lista-de-cards">
@@ -56,7 +64,11 @@
                             <h4> {{ promocao.nome }}</h4>
                         </div>
                         <p> {{ promocao.descricao }}</p>
-                        <div class="preco">
+                        <div class="card-footer-">
+                            <div class="editar-excluir">
+                                <fa class="icone" icon="pen-to-square" />
+                                <fa class="icone" icon="trash" />
+                            </div>
                             <span>{{ converterPreco(promocao.preco) }}</span>
                         </div>
                     </div>
@@ -188,17 +200,32 @@ h4 {
     font-family: 'Lobster', sans-serif;
 }
 
-.preco {
+.card-footer- {
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
+    justify-content: space-between;
     font-family: 'Lobster', sans-serif;
 }
 
+.editar-excluir {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 40px;
+}
+
+.icone {
+    cursor: pointer;
+}
 
 .area-admin {
     display: flex;
     flex-direction: row;
     gap: 10px;
+}
+
+.novo {
+    cursor: pointer;
 }
 
 .column-header {
