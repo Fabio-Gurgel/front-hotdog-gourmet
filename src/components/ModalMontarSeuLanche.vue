@@ -16,8 +16,11 @@
 
                 <h2>Selecione seus ingredientes:</h2>
                 <div class="lista-de-ingredientes">
-                    <div class="ingrediente" v-for="ingrediente in this.ingredientes">
-                        <span>{{ ingrediente.nome }}</span>
+                    <div class="adicionar-remover-ingredientes" v-for="ingrediente in this.ingredientes">
+                        <div class="ingrediente-e-preco">
+                            <h4>{{ ingrediente.nome }}</h4>
+                            <span>{{ converterPreco(ingrediente.preco) }}</span>
+                        </div>
                         <AdicionarRemover :idDoSpan="ingrediente.id" @diminuirPreco="diminuirPreco(ingrediente.preco)"
                             @aumentarPreco="aumentarPreco(ingrediente.preco)" :fechou="this.fechouModal"/>
                     </div>
@@ -119,12 +122,22 @@ h2 {
     padding-right: 10px;
 }
 
-.ingrediente {
+.adicionar-remover-ingredientes {
     display: flex;
     flex-direction: row;
     width: 100%;
     justify-content: space-between;
     align-items: center;
+}
+
+.ingrediente-e-preco {
+    display: flex;
+    flex-direction: column;
+}
+
+.ingrediente-e-preco > span {
+    color: var(--cor-terciaria);
+    font-size: smaller;
 }
 
 .preco {

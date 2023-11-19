@@ -25,7 +25,7 @@ export default {
   --cor-de-fundo: #fafafa;
   --cor-primaria: #c22d2d;
   --cor-secundaria: #af2525;
-  --cor-terciaria: #c9c9c9;
+  --cor-terciaria: #b4b4b4;
 }
 
 * {
