@@ -13,8 +13,15 @@
                     <label>Nome:
                         <input type="text" placeholder="nome" v-model="nomePromocao" maxlength="20" />
                     </label>
+                    <label>Preço:
+                        <input type="text" placeholder="0.00" @input="formatarPrecoInput" v-model="precoPromocao"
+                            maxlength="5" />
+                    </label>
+                    <label>Percentual de desconto:
+                        <input type="number" placeholder="0" v-model="descontoPromocao" @input="validarDesconto()" />
+                    </label>
                 </div>
-
+                
                 <h2>Selecione os lanches:</h2>
                 <div class="lista-de-ingredientes">
                     <div class="adicionar-remover-ingredientes" v-for="lanche in this.lanches">
@@ -22,8 +29,7 @@
                             <h4>{{ lanche.nome }}</h4>
                             <span>{{ converterPreco(lanche.preco) }}</span>
                         </div>
-                        <AdicionarRemover :idDoSpan="lanche.id"
-                            :numeroMaximo="1"
+                        <AdicionarRemover :idDoSpan="lanche.id" :numeroMaximo="1"
                             @diminuirPreco="diminuirPreco(lanche.preco, lanche.id)"
                             @aumentarPreco="aumentarPreco(lanche.preco, lanche.id)" :fechou="this.fechouModal" />
                     </div>
@@ -70,11 +76,13 @@ export default {
     data() {
         return {
             nomePromocao: "",
+            precoPromocao: 0.00,
+            descontoPromocao: 0,
             ingredientes: null,
             promocaoAntiga: {},
             precoTotal: 0.0,
             fechouModal: false,
-            lanchesNaPromocao: []
+            lanchesNaPromocao: [],
         }
     },
 
@@ -90,67 +98,67 @@ export default {
         async salvarPromocao() {
 
 
-                if (this.promocaoAntiga.nome == this.nomePromocao && this.promocaoAntiga.preco == this.precoPromocao) {
-                    this.fecharModal();
+            if (this.promocaoAntiga.nome == this.nomePromocao && this.promocaoAntiga.preco == this.precoPromocao) {
+                this.fecharModal();
+            } else {
+
+
+                if (this.idPromocao != null) {
+                    try {
+                        let promocao = {
+                            nome: this.nomePromocao,
+                            preco: this.precoPromocao
+                        }
+
+                        const response = await fetch(`${API_URL}/promocoes/${this.idPromocao}`, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(promocao)
+                        });
+
+                        if (!response.ok) {
+                            const erro = await response.json();
+                            throw new Error(erro.mensagem);
+                        }
+
+                        this.$emit('request');
+                        window.alert("Promoção editada com sucesso!")
+                        this.fecharModal();
+
+                    } catch (error) {
+                        window.alert(error.message)
+                    }
                 } else {
-
-
-                    if (this.idPromocao != null) {
-                        try {
-                            let promocao = {
-                                nome: this.nomePromocao,
-                                preco: this.precoPromocao
-                            }
-
-                            const response = await fetch(`${API_URL}/promocoes/${this.idPromocao}`, {
-                                method: 'PUT',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify(promocao)
-                            });
-
-                            if (!response.ok) {
-                                const erro = await response.json();
-                                throw new Error(erro.mensagem);
-                            }
-
-                            this.$emit('request');
-                            window.alert("Promoção editada com sucesso!")
-                            this.fecharModal();
-
-                        } catch (error) {
-                            window.alert(error.message)
+                    try {
+                        let promocao = {
+                            nome: this.nomePromocao,
+                            preco: this.precoPromocao
                         }
-                    } else {
-                        try {
-                            let promocao = {
-                                nome: this.nomePromocao,
-                                preco: this.precoPromocao
-                            }
 
-                            const response = await fetch(`${API_URL}/promocoes`, {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify(promocao)
-                            });
+                        const response = await fetch(`${API_URL}/promocoes`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(promocao)
+                        });
 
-                            if (!response.ok) {
-                                const erro = await response.json();
-                                throw new Error(erro.mensagem);
-                            }
-
-                            this.$emit('request');
-                            window.alert("Promoção criada com sucesso!")
-                            this.fecharModal();
-
-                        } catch (error) {
-                            window.alert(error.message)
+                        if (!response.ok) {
+                            const erro = await response.json();
+                            throw new Error(erro.mensagem);
                         }
+
+                        this.$emit('request');
+                        window.alert("Promoção criada com sucesso!")
+                        this.fecharModal();
+
+                    } catch (error) {
+                        window.alert(error.message)
                     }
                 }
+            }
         },
 
         async carregarPromocao() {
@@ -186,6 +194,14 @@ export default {
             this.precoPromocao = valor;
         },
 
+        validarDesconto() {
+            if (this.descontoPromocao < 0) {
+                this.descontoPromocao = 0;
+            } else if (this.descontoPromocao > 100) {
+                this.descontoPromocao = 100;
+            }
+        },
+
         converterPreco(preco) {
             return convertePreco(preco);
         },
@@ -198,7 +214,7 @@ export default {
 
         diminuirPreco(preco, id) {
             this.precoTotal -= preco
-            for(var idDeLanche of this.lanchesNaPromocao) {
+            for (var idDeLanche of this.lanchesNaPromocao) {
                 console.log(idDeLanche)
                 console.log(id)
                 if (idDeLanche == id) {
@@ -245,7 +261,8 @@ h2 {
 .inserir-dados {
     display: flex;
     flex-direction: row;
-    gap: 40%;
+    gap: 15%;
+    margin-bottom: 10px;
 }
 
 .lista-de-ingredientes {
