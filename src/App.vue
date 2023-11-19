@@ -51,6 +51,7 @@ h1 {
 }
 
 button {
+  text-align: center;
   background-color: var(--cor-primaria);
   cursor: pointer;
   border-radius: 10px;
