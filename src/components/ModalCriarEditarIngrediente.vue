@@ -9,18 +9,20 @@
             <section class="modal-card-body">
                 <div class="inserir-dados">
                     <label>Nome:
-                        <input type="text" placeholder="nome" v-model="nomeIngrediente" maxlength="20"/>
+                        <input type="text" placeholder="nome" v-model="nomeIngrediente" maxlength="20" />
                     </label>
                     <label>Preço:
-                        <input type="text" placeholder="0.00" @input="formatarPrecoInput"
-                            v-model="precoIngrediente" maxlength="5"/>
+                        <input type="text" placeholder="0.00" @input="formatarPrecoInput" v-model="precoIngrediente"
+                            maxlength="5" />
                     </label>
                 </div>
             </section>
-            <footer class="modal-card-foot" style="display: flex; flex-direction: row; justify-content: space-between;">
-                <button style="width: 100px; background-color: white; color: black;"
-                    @click="fecharModal()">Cancelar</button>
-                <button style="width: 100px;" @click="fecharModal()">Salvar</button>
+            <footer class="modal-card-foot" style="display: flex; flex-direction: row-reverse;">
+                <div style="width: 220px; display: flex; justify-content: space-between;">
+                    <button style="width: 100px; background-color: white; color: black;"
+                        @click="fecharModal()">Cancelar</button>
+                    <button style="width: 100px;" @click="fecharModal()">Salvar</button>
+                </div>
             </footer>
         </div>
     </div>
@@ -49,6 +51,8 @@ export default {
 
     methods: {
         fecharModal() {
+            this.nomeIngrediente = "";
+            this.precoIngrediente = "";
             this.$emit('close');
         },
 
@@ -115,4 +119,5 @@ input {
     width: 100px;
     padding: 3px;
     outline: none;
-}</style>
+}
+</style>
