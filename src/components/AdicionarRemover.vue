@@ -15,6 +15,13 @@ export default {
             quantidade: 0
         };
     },
+
+    props: {
+        fechou: {
+            type: Boolean,
+            default: false
+        }
+    },
     methods: {
         async aumentar() {
             if (this.quantidade < 5) {
@@ -27,6 +34,12 @@ export default {
                 await this.quantidade--;
                 this.$emit('diminuirPreco')
             }
+        }
+    },
+
+    watch: {
+        fechou() {
+            this.quantidade = 0
         }
     }
 };

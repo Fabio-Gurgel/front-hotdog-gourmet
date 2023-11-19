@@ -19,7 +19,7 @@
                     <div class="ingrediente" v-for="ingrediente in this.ingredientes">
                         <span>{{ ingrediente.nome }}</span>
                         <AdicionarRemover :idDoSpan="ingrediente.id" @diminuirPreco="diminuirPreco(ingrediente.preco)"
-                            @aumentarPreco="aumentarPreco(ingrediente.preco)"/>
+                            @aumentarPreco="aumentarPreco(ingrediente.preco)" :fechou="this.fechouModal"/>
                     </div>
 
                 </div>
@@ -54,7 +54,8 @@ export default {
     data() {
         return {
             ingredientes: null,
-            precoTotal: 0.00
+            precoTotal: 0.00,
+            fechouModal: false
         }
     },
 
@@ -62,6 +63,7 @@ export default {
         fecharModal() {
             this.precoTotal = 0.0
             this.$emit('close');
+            this.fechouModal = !this.fechouModal
         },
 
         async carregarIngredientes() {
