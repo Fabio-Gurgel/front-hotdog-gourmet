@@ -68,7 +68,7 @@
                         <div class="card-footer-">
                             <div class="editar-excluir">
                                 <fa class="icone" icon="pen-to-square" />
-                                <fa class="icone" icon="trash" />
+                                <fa class="icone" icon="trash" @click="temCertezaDeQueDesejaExcluirPromocao(promocao.id)"/>
                             </div>
                             <span>{{ converterPreco(promocao.preco) }}</span>
                         </div>
@@ -164,10 +164,10 @@ export default {
                 }
                 
                 this.carregarIngredientes();
-                window.alert("Ingrediente excluído com sucesso!")
+                window.alert("Ingrediente excluído com sucesso!");
 
             } catch (error) {
-                window.alert("Não é possível excluir excluir um ingrediente presente em um lanche.")
+                window.alert("Não é possível excluir excluir um ingrediente presente em um lanche.");
             }
         },
 
@@ -195,10 +195,41 @@ export default {
                 }
                 
                 this.carregarLanches();
-                window.alert("Lanche excluído com sucesso!")
+                window.alert("Lanche excluído com sucesso!");
 
             } catch (error) {
-                window.alert("Não é possível excluir um lanche presente em uma promoção.")
+                window.alert("Não é possível excluir um lanche presente em uma promoção.");
+            }
+        },
+
+        temCertezaDeQueDesejaExcluirPromocao(id) {
+            const confirmacao = window.confirm('Tem certeza que deseja excluir esta promoção?');
+
+            if (confirmacao) {
+                this.deletarPromocao(id);
+            }
+        },
+
+        async deletarPromocao(id) {
+            try {
+                const response = await fetch(`${API_URL}/promocoes/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+
+                });
+
+                if (!response.ok) {
+                    const erro = await response.json();
+                    throw new Error(erro.mensagem);
+                }
+                
+                this.carregarPromocoes();
+                window.alert("Promoção excluída com sucesso!");
+
+            } catch (error) {
+                window.alert(error.message);
             }
         },
 
