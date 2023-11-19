@@ -45,7 +45,7 @@
                         <div class="card-footer-">
                             <div class="editar-excluir">
                                 <fa class="icone" icon="pen-to-square" />
-                                <fa class="icone" icon="trash" />
+                                <fa class="icone" icon="trash" @click="temCertezaDeQueDesejaExcluirLanche(lanche.id)"/>
                             </div>
                             <span>{{ converterPreco(lanche.preco) }}</span>
                         </div>
@@ -167,7 +167,38 @@ export default {
                 window.alert("Ingrediente excluído com sucesso!")
 
             } catch (error) {
-                window.alert("Você não pode excluir um ingrediente presente em um lanche.")
+                window.alert("Não é possível excluir excluir um ingrediente presente em um lanche.")
+            }
+        },
+
+        temCertezaDeQueDesejaExcluirLanche(id) {
+            const confirmacao = window.confirm('Tem certeza que deseja excluir este lanche?');
+
+            if (confirmacao) {
+                this.deletarLanche(id);
+            }
+        },
+
+        async deletarLanche(id) {
+            try {
+                const response = await fetch(`${API_URL}/lanches/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+
+                });
+
+                if (!response.ok) {
+                    const erro = await response.json();
+                    throw new Error(erro.mensagem);
+                }
+                
+                this.carregarLanches();
+                window.alert("Lanche excluído com sucesso!")
+
+            } catch (error) {
+                window.alert("Não é possível excluir um lanche presente em uma promoção.")
             }
         },
 
