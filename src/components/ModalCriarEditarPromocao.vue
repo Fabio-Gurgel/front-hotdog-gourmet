@@ -35,8 +35,8 @@
                             <span>{{ converterPreco(lanche.preco) }}</span>
                         </div>
                         <AdicionarRemover :idDoSpan="lanche.id" :numeroMaximo="1"
-                            @diminuirPreco="diminuirPreco(lanche.preco, lanche.id)"
-                            @aumentarPreco="aumentarPreco(lanche.preco, lanche.id)" :fechou="this.fechouModal" />
+                            @diminuirPreco="diminuirPreco(lanche.id)"
+                            @aumentarPreco="aumentarPreco(lanche.id)" :fechou="this.fechouModal" />
                     </div>
 
                 </div>
@@ -79,6 +79,7 @@ export default {
 
     data() {
         return {
+            idPromocao: null,
             nomePromocao: "",
             precoPromocao: null,
             descontoPromocao: null,
@@ -103,12 +104,10 @@ export default {
         },
 
         async salvarPromocao() {
-
-
+            
             if (this.promocaoAntiga.nome == this.nomePromocao && this.promocaoAntiga.preco == this.precoPromocao) {
                 this.fecharModal();
             } else {
-
 
                 if (this.idPromocao != null) {
                     try {
@@ -141,8 +140,13 @@ export default {
                     try {
                         let promocao = {
                             nome: this.nomePromocao,
-                            preco: this.precoPromocao
+                            descricao: this.descricaoPromocao,
+                            preco: this.precoPromocao,
+                            percentualDesconto: this.descontoPromocao,
+                            lanches: this.lanchesNaPromocao.map(lancheId => ({ id: lancheId }))
                         }
+
+                        console.log(promocao)
 
                         const response = await fetch(`${API_URL}/promocoes`, {
                             method: 'POST',
@@ -213,12 +217,11 @@ export default {
             return convertePreco(preco);
         },
 
-        aumentarPreco(preco, id) {
+        aumentarPreco(id) {
             this.lanchesNaPromocao.push(id)
-            console.log(this.lanchesNaPromocao)
         },
 
-        diminuirPreco(preco, id) {
+        diminuirPreco( id) {
             for (var idDeLanche of this.lanchesNaPromocao) {
                 if (idDeLanche == id) {
                     var index = this.lanchesNaPromocao.indexOf(idDeLanche);
