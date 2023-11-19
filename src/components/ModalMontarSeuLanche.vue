@@ -18,7 +18,7 @@
                 <div class="lista-de-ingredientes">
                     <div class="ingrediente" v-for="ingrediente in this.ingredientes">
                         <span>{{ ingrediente.nome }}</span>
-                        <AdicionarRemover/>
+                        <AdicionarRemover :idDoSpan="ingrediente.id" @diminuirPreco="diminuirPreco(ingrediente.preco)" @aumentarPreco="aumentarPreco(ingrediente.preco)"/>
                     </div>
 
                 </div>
@@ -75,6 +75,14 @@ export default {
         converterPreco(preco) {
             return convertePreco(preco);
         },
+
+        aumentarPreco(preco) {
+            this.precoTotal += preco
+        },
+
+        diminuirPreco(preco) {
+            this.precoTotal -= preco
+        }
 
     },
 

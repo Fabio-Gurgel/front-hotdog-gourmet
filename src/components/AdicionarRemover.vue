@@ -16,14 +16,16 @@ export default {
         };
     },
     methods: {
-        aumentar() {
+         async aumentar() {
             if (this.quantidade < 5) {
-                this.quantidade++;
+                 await this.quantidade++;
+                this.$emit('aumentarPreco');
             }
         },
-        diminuir() {
+        async diminuir() {
             if (this.quantidade > 0) {
-                this.quantidade--;
+                await this.quantidade--;
+                this.$emit('diminuirPreco')
             }
         }
     }
