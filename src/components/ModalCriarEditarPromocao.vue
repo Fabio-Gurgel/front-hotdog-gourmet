@@ -23,6 +23,7 @@
                             <span>{{ converterPreco(lanche.preco) }}</span>
                         </div>
                         <AdicionarRemover :idDoSpan="lanche.id"
+                            :numeroMaximo="1"
                             @diminuirPreco="diminuirPreco(lanche.preco, lanche.id)"
                             @aumentarPreco="aumentarPreco(lanche.preco, lanche.id)" :fechou="this.fechouModal" />
                     </div>
@@ -81,6 +82,7 @@ export default {
         fecharModal() {
             this.precoTotal = 0.0;
             this.nomePromocao = "";
+            this.lanchesNaPromocao = []
             this.$emit('close');
             this.fechouModal = !this.fechouModal;
         },
@@ -190,9 +192,22 @@ export default {
 
         aumentarPreco(preco, id) {
             this.precoTotal += preco
+            this.lanchesNaPromocao.push(id)
+            console.log(this.lanchesNaPromocao)
         },
 
         diminuirPreco(preco, id) {
+            this.precoTotal -= preco
+            for(var idDeLanche of this.lanchesNaPromocao) {
+                console.log(idDeLanche)
+                console.log(id)
+                if (idDeLanche == id) {
+                    console.log("encontrou")
+                    var index = this.lanchesNaPromocao.indexOf(idDeLanche);
+                    this.lanchesNaPromocao.splice(index, 1)
+                }
+            }
+            console.log(this.lanchesNaPromocao)
 
         }
 

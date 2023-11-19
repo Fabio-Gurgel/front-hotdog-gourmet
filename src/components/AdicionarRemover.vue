@@ -24,11 +24,15 @@ export default {
         idDoSpan: {
             type: Number,
             default: null
+        },
+        numeroMaximo: {
+            type: Number,
+            default: 5
         }
     },
     methods: {
         async aumentar() {
-            if (this.quantidade < 5) {
+            if (this.quantidade < this.numeroMaximo) {
                 await this.quantidade++;
                 this.$emit('aumentarPreco');
             }
@@ -46,10 +50,6 @@ export default {
             this.quantidade = 0
         }
     },
-
-    created() {
-        console.log(this.idDoSpan)
-    }
 };
 </script>
   
