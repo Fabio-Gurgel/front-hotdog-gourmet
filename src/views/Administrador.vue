@@ -20,7 +20,7 @@
                         </div>
                         <div class="card-footer-">
                             <div class="editar-excluir">
-                                <fa class="icone" icon="pen-to-square" />
+                                <fa class="icone" icon="pen-to-square" @click="abrirModalIngrediente(ingrediente.id)"/>
                                 <fa class="icone" icon="trash" />
                             </div>
                             <span>{{ converterPreco(ingrediente.preco) }}</span>
@@ -75,7 +75,7 @@
                 </div>
             </div>
         </div>
-        <ModalCriarEditarIngrediente :is-active="this.exibindoModalIngrediente" @close="fecharModal()" @request="carregarIngredientes()"/>
+        <ModalCriarEditarIngrediente :is-active="this.exibindoModalIngrediente" @close="fecharModal()" @request="carregarIngredientes()" :idIngrediente="this.idDoIngredienteQueSeraEditado"/>
     </div>
 </template>
 
@@ -96,7 +96,8 @@ export default {
             lanches: null,
             promocoes: null,
             ingredientes: null,
-            exibindoModalIngrediente: false
+            exibindoModalIngrediente: false,
+            idDoIngredienteQueSeraEditado: null
         };
     },
 
@@ -139,12 +140,14 @@ export default {
             return formataListaIngredientes(ingredientes)
         },
 
-        abrirModalIngrediente() {
+        abrirModalIngrediente(id) {
+            this.idDoIngredienteQueSeraEditado = id
             this.exibindoModalIngrediente = true
         },
 
         fecharModal() {
             this.exibindoModalIngrediente = false
+            this.idDoIngredienteQueSeraEditado = null
         }
     },
 

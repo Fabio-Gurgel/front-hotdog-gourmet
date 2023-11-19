@@ -3,7 +3,8 @@
         <div class="modal-background"></div>
         <div class="modal-card">
             <header class="modal-card-head vermelho" style="background-color: var(--cor-primaria);">
-                <h1 class="modal-card-title" style="color: white;">Novo ingrediente:</h1>
+                <h1 v-if="this.idIngrediente == null" class="modal-card-title" style="color: white;">Novo ingrediente:</h1>
+                <h1 v-else class="modal-card-title" style="color: white;">Editar ingrediente:</h1>
                 <button class="delete" aria-label="close" @click="fecharModal()"></button>
             </header>
             <section class="modal-card-body">
@@ -38,13 +39,18 @@ export default {
         isActive: {
             type: Boolean,
             default: false
+        },
+        idIngrediente: {
+            type: Number,
+            default: null
         }
     },
 
     data() {
         return {
             nomeIngrediente: "",
-            precoIngrediente: ""
+            precoIngrediente: "",
+            ingredienteAntigo: {}
         }
     },
 
@@ -57,41 +63,80 @@ export default {
 
         async salvarIngrediente() {
             if (this.nomeIngrediente != "" && this.precoIngrediente != "") {
-                try {
-                    let ingrediente = {
-                        nome: this.nomeIngrediente,
-                        preco: this.precoIngrediente
-                    }
 
-                    const response = await fetch(`${API_URL}/ingredientes`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(ingrediente)
-                    });
-
-                    if (!response.ok) {
-                        const erro = await response.json();
-                        throw new Error(erro.mensagem);
-                    }
-
-                    this.$emit('request');
+                if (this.ingredienteAntigo.nome == this.nomeIngrediente && this.ingredienteAntigo.preco == this.precoIngrediente) {
                     this.fecharModal();
+                } else {
 
-                } catch (error) {
-                    window.alert(error.message)
+                    
+                    if (this.idIngrediente != null) {
+                        try {
+                            let ingrediente = {
+                                nome: this.nomeIngrediente,
+                                preco: this.precoIngrediente
+                            }
+                            
+                            const response = await fetch(`${API_URL}/ingredientes/${this.idIngrediente}`, {
+                                method: 'PUT',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(ingrediente)
+                            });
+                            
+                            if (!response.ok) {
+                            const erro = await response.json();
+                            throw new Error(erro.mensagem);
+                        }
+                        
+                        this.$emit('request');
+                        window.alert("Ingrediente editado com sucesso!")
+                        this.fecharModal();
+                        
+                    } catch (error) {
+                        window.alert(error.message)
+                    }
+                } else {
+                    try {
+                        let ingrediente = {
+                            nome: this.nomeIngrediente,
+                            preco: this.precoIngrediente
+                        }
+                        
+                        const response = await fetch(`${API_URL}/ingredientes`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(ingrediente)
+                        });
+                        
+                        if (!response.ok) {
+                            const erro = await response.json();
+                            throw new Error(erro.mensagem);
+                        }
+                        
+                        this.$emit('request');
+                        window.alert("Ingrediente criado com sucesso!")
+                        this.fecharModal();
+                        
+                    } catch (error) {
+                        window.alert(error.message)
+                    }
                 }
+            }
             } else {
                 window.alert("Preencha todos os campos.")
             }
         },
 
-        async carregarIngredientes() {
+        async carregarIngrediente() {
             try {
-                const response = await fetch(`${API_URL}/ingredientes`);
+                const response = await fetch(`${API_URL}/ingredientes/${this.idIngrediente}`);
                 const jsonData = await response.json();
-                this.ingredientes = jsonData;
+                this.ingredienteAntigo = jsonData
+                this.nomeIngrediente = jsonData.nome;
+                this.precoIngrediente = jsonData.preco;
             } catch (error) {
                 console.error('Erro ao obter dados do backend: ', error);
             }
@@ -110,8 +155,12 @@ export default {
 
     },
 
-    created() {
-        this.carregarIngredientes();
+    watch: {
+        idIngrediente() {
+            if (this.idIngrediente != null) {
+                this.carregarIngrediente();
+            }
+        }
     }
 }
 </script>
