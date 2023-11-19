@@ -206,7 +206,6 @@ export default {
             for (var i = 0; i < quantidade; i++) {
                 this.ingredientesNoLanche.push(id);
             }
-            console.log(this.ingredientesNoLanche)
         }
 
     },

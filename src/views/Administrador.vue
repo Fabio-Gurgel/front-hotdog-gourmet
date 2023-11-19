@@ -64,7 +64,7 @@
                         <p> {{ promocao.descricao }}</p>
                         <div class="card-footer-">
                             <div class="editar-excluir">
-                                <fa class="icone" icon="pen-to-square" />
+                                <fa class="icone" icon="pen-to-square" @click="abrirModalPromocao(promocao.id)"/>
                                 <fa class="icone" icon="trash" @click="temCertezaDeQueDesejaExcluirPromocao(promocao.id)" />
                             </div>
                             <span>{{ converterPreco(promocao.preco) }}</span>

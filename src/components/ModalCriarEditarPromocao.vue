@@ -34,8 +34,7 @@
                             <h4>{{ lanche.nome }}</h4>
                             <span>{{ converterPreco(lanche.preco) }}</span>
                         </div>
-                        <AdicionarRemover :idDoSpan="lanche.id" :numeroMaximo="1"
-                            @diminuirPreco="diminuirPreco(lanche.id)"
+                        <AdicionarRemover :idDoSpan="lanche.id" :numeroMaximo="1" @diminuirPreco="diminuirPreco(lanche.id)"
                             @aumentarPreco="aumentarPreco(lanche.id)" :fechou="this.fechouModal" />
                     </div>
 
@@ -79,7 +78,6 @@ export default {
 
     data() {
         return {
-            idPromocao: null,
             nomePromocao: "",
             precoPromocao: null,
             descontoPromocao: null,
@@ -104,8 +102,11 @@ export default {
         },
 
         async salvarPromocao() {
-            
-            if (this.promocaoAntiga.nome == this.nomePromocao && this.promocaoAntiga.preco == this.precoPromocao) {
+
+            if (this.promocaoAntiga.nome == this.nomePromocao &&
+                this.promocaoAntiga.preco == this.precoPromocao &&
+                this.promocaoAntiga.percentualDesconto == this.descontoPromocao &&
+                this.promocaoAntiga.lanches == this.lanchesNaPromocao) {
                 this.fecharModal();
             } else {
 
@@ -113,7 +114,10 @@ export default {
                     try {
                         let promocao = {
                             nome: this.nomePromocao,
-                            preco: this.precoPromocao
+                            descricao: this.descricaoPromocao,
+                            preco: this.precoPromocao,
+                            percentualDesconto: this.descontoPromocao,
+                            lanches: this.lanchesNaPromocao.map(lancheId => ({ id: lancheId }))
                         }
 
                         const response = await fetch(`${API_URL}/promocoes/${this.idPromocao}`, {
@@ -146,8 +150,6 @@ export default {
                             lanches: this.lanchesNaPromocao.map(lancheId => ({ id: lancheId }))
                         }
 
-                        console.log(promocao)
-
                         const response = await fetch(`${API_URL}/promocoes`, {
                             method: 'POST',
                             headers: {
@@ -178,6 +180,8 @@ export default {
                 const jsonData = await response.json();
                 this.promocaoAntiga = jsonData
                 this.nomePromocao = jsonData.nome;
+                this.descricaoPromocao = jsonData.descricao;
+                this.descontoPromocao = jsonData.percentualDesconto;
                 this.precoPromocao = jsonData.preco;
             } catch (error) {
                 console.error('Erro ao obter dados do backend: ', error);
@@ -193,7 +197,6 @@ export default {
                 console.error('Erro ao obter dados do backend: ', error);
             }
         },
-
 
         formatarPrecoInput() {
             let valor = this.precoPromocao;
@@ -221,7 +224,7 @@ export default {
             this.lanchesNaPromocao.push(id)
         },
 
-        diminuirPreco( id) {
+        diminuirPreco(id) {
             for (var idDeLanche of this.lanchesNaPromocao) {
                 if (idDeLanche == id) {
                     var index = this.lanchesNaPromocao.indexOf(idDeLanche);
