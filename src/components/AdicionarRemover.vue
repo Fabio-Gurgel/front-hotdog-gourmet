@@ -16,9 +16,9 @@ export default {
         };
     },
     methods: {
-         async aumentar() {
+        async aumentar() {
             if (this.quantidade < 5) {
-                 await this.quantidade++;
+                await this.quantidade++;
                 this.$emit('aumentarPreco');
             }
         },
