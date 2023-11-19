@@ -13,14 +13,13 @@
                 </div>
 
                 <div class="lista-de-cards">
-                    <div class="card verde" v-for="lanche in this.lanches" :key="lanche.id">
+                    <div class="card salmao" v-for="ingrediente in this.ingredientes" :key="ingrediente.id">
                         <div class="icone-e-nome">
-                            <fa icon="hotdog" />
-                            <h4> {{ lanche.nome }}</h4>
+                            <fa icon="bacon" />
+                            <h4> {{ ingrediente.nome }}</h4>
                         </div>
-                        <p>{{ formatarListaIngredientes(lanche.ingredientes) }}</p>
                         <div class="preco">
-                            <span>{{ converterPreco(lanche.preco) }}</span>
+                            <span>{{ converterPreco(ingrediente.preco) }}</span>
                         </div>
                     </div>
                 </div>
@@ -84,6 +83,7 @@ export default {
         return {
             lanches: null,
             promocoes: null,
+            ingredientes: null,
             exibindoModal: false
         };
     },
@@ -109,6 +109,16 @@ export default {
             }
         },
 
+        async carregarIngredientes() {
+            try {
+                const response = await fetch(`${API_URL}/ingredientes`);
+                const jsonData = await response.json();
+                this.ingredientes = jsonData;
+            } catch (error) {
+                console.error('Erro ao obter dados do backend: ', error);
+            }
+        },
+
         converterPreco(preco) {
             return convertePreco(preco);
         },
@@ -129,6 +139,7 @@ export default {
     created() {
         this.carregarLanches();
         this.carregarPromocoes();
+        this.carregarIngredientes();
     }
 }
 
@@ -221,8 +232,8 @@ h4 {
     background-color: var(--cor-primaria);
 }
 
-.verde {
-    background-color: rgb(42, 124, 39);
+.salmao {
+    background-color: rgb(221, 112, 112);
 }
 
 .preto {
