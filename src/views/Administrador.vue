@@ -9,7 +9,7 @@
             <div class="column">
                 <div class="column-header">
                     <h3>Ingredientes:</h3>
-                    <h3 class="novo" @click="abrirModal()">+ Novo ingrediente</h3>
+                    <h3 class="novo" @click="abrirModalIngrediente()">+ Novo ingrediente</h3>
                 </div>
 
                 <div class="lista-de-cards">
@@ -75,7 +75,7 @@
                 </div>
             </div>
         </div>
-        <ModalMontarSeuLanche :is-active="this.exibindoModal" @close="fecharModal()"/>
+        <ModalCriarEditarIngrediente :is-active="this.exibindoModalIngrediente" @close="fecharModal()"/>
     </div>
 </template>
 
@@ -84,11 +84,11 @@
 import API_URL from '../service/API_URL.js';
 import convertePreco from '../utils/convertePreco.js'
 import formataListaIngredientes from '../utils/formataListaIngredientes.js'
-import ModalMontarSeuLanche from '../components/ModalMontarSeuLanche.vue'
+import ModalCriarEditarIngrediente from '../components/ModalCriarEditarIngrediente.vue'
 
 export default {
     components: {
-        ModalMontarSeuLanche
+        ModalCriarEditarIngrediente
     },
 
     data() {
@@ -96,7 +96,7 @@ export default {
             lanches: null,
             promocoes: null,
             ingredientes: null,
-            exibindoModal: false
+            exibindoModalIngrediente: false
         };
     },
 
@@ -139,12 +139,12 @@ export default {
             return formataListaIngredientes(ingredientes)
         },
 
-        abrirModal() {
-            this.exibindoModal = true
+        abrirModalIngrediente() {
+            this.exibindoModalIngrediente = true
         },
 
         fecharModal() {
-            this.exibindoModal = false
+            this.exibindoModalIngrediente = false
         }
     },
 
