@@ -21,7 +21,8 @@
                         <div class="card-footer-">
                             <div class="editar-excluir">
                                 <fa class="icone" icon="pen-to-square" @click="abrirModalIngrediente(ingrediente.id)" />
-                                <fa class="icone" icon="trash" />
+                                <fa class="icone" icon="trash"
+                                    @click="temCertezaDeQueDesejaExcluirIngrediente(ingrediente.id)" />
                             </div>
                             <span>{{ converterPreco(ingrediente.preco) }}</span>
                         </div>
@@ -77,8 +78,8 @@
         </div>
         <ModalCriarEditarIngrediente :is-active="this.exibindoModalIngrediente" @close="fecharModal()"
             @request="carregarIngredientes()" :idIngrediente="this.idDoIngredienteQueSeraEditado" />
-        <ModalCriarEditarLanche :is-active="this.exibindoModalLanche" @close="fecharModal()"
-            @request="carregarLanches()" :idLanche="this.idDoLancheQueSeraEditado"/>
+        <ModalCriarEditarLanche :is-active="this.exibindoModalLanche" @close="fecharModal()" @request="carregarLanches()"
+            :idLanche="this.idDoLancheQueSeraEditado" />
     </div>
 </template>
 
@@ -139,6 +140,37 @@ export default {
             }
         },
 
+        temCertezaDeQueDesejaExcluirIngrediente(id) {
+            const confirmacao = window.confirm('Tem certeza que deseja excluir este ingrediente?');
+
+            if (confirmacao) {
+                this.deletarIngrediente(id);
+            }
+        },
+
+        async deletarIngrediente(id) {
+            try {
+                const response = await fetch(`${API_URL}/ingredientes/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+
+                });
+
+                if (!response.ok) {
+                    const erro = await response.json();
+                    throw new Error(erro.mensagem);
+                }
+                
+                this.carregarIngredientes();
+                window.alert("Ingrediente excluído com sucesso!")
+
+            } catch (error) {
+                window.alert("Você não pode excluir um ingrediente presente em um lanche.")
+            }
+        },
+
         converterPreco(preco) {
             return convertePreco(preco);
         },
@@ -152,7 +184,7 @@ export default {
             this.exibindoModalIngrediente = true
         },
 
-        abrirModalLanche(id){
+        abrirModalLanche(id) {
             this.idDoLancheQueSeraEditado = id
             this.exibindoModalLanche = true
         },
