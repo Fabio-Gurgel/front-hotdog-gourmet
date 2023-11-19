@@ -21,7 +21,7 @@
                 <div style="width: 220px; display: flex; justify-content: space-between;">
                     <button style="width: 100px; background-color: white; color: black;"
                         @click="fecharModal()">Cancelar</button>
-                    <button style="width: 100px;" @click="fecharModal()">Salvar</button>
+                    <button style="width: 100px;" @click="salvarIngrediente()">Salvar</button>
                 </div>
             </footer>
         </div>
@@ -31,7 +31,6 @@
 <script>
 
 import API_URL from '@/service/API_URL';
-import convertePreco from '../utils/convertePreco.js'
 
 export default {
 
@@ -56,6 +55,29 @@ export default {
             this.$emit('close');
         },
 
+        async salvarIngrediente() {
+            try {
+                let ingrediente = {
+                    nome: this.nomeIngrediente,
+                    preco: this.precoIngrediente
+                }
+
+                await fetch(`${API_URL}/ingredientes`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(ingrediente)
+                });
+
+                this.$emit('request');
+                this.fecharModal();
+                
+            } catch (error) {
+                console.error('Erro ao obter dados do backend: ', error);
+            }
+        },
+
         async carregarIngredientes() {
             try {
                 const response = await fetch(`${API_URL}/ingredientes`);
@@ -66,9 +88,6 @@ export default {
             }
         },
 
-        converterPreco(preco) {
-            return convertePreco(preco);
-        },
 
         formatarPrecoInput() {
             let valor = this.precoIngrediente;

@@ -75,7 +75,7 @@
                 </div>
             </div>
         </div>
-        <ModalCriarEditarIngrediente :is-active="this.exibindoModalIngrediente" @close="fecharModal()"/>
+        <ModalCriarEditarIngrediente :is-active="this.exibindoModalIngrediente" @close="fecharModal()" @request="carregarIngredientes()"/>
     </div>
 </template>
 
