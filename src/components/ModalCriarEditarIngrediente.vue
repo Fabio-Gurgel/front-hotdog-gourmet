@@ -68,14 +68,14 @@ export default {
                     this.fecharModal();
                 } else {
 
-                    
+
                     if (this.idIngrediente != null) {
                         try {
                             let ingrediente = {
                                 nome: this.nomeIngrediente,
                                 preco: this.precoIngrediente
                             }
-                            
+
                             const response = await fetch(`${API_URL}/ingredientes/${this.idIngrediente}`, {
                                 method: 'PUT',
                                 headers: {
@@ -83,48 +83,48 @@ export default {
                                 },
                                 body: JSON.stringify(ingrediente)
                             });
-                            
+
                             if (!response.ok) {
-                            const erro = await response.json();
-                            throw new Error(erro.mensagem);
+                                const erro = await response.json();
+                                throw new Error(erro.mensagem);
+                            }
+
+                            this.$emit('request');
+                            window.alert("Ingrediente editado com sucesso!")
+                            this.fecharModal();
+
+                        } catch (error) {
+                            window.alert(error.message)
                         }
-                        
-                        this.$emit('request');
-                        window.alert("Ingrediente editado com sucesso!")
-                        this.fecharModal();
-                        
-                    } catch (error) {
-                        window.alert(error.message)
-                    }
-                } else {
-                    try {
-                        let ingrediente = {
-                            nome: this.nomeIngrediente,
-                            preco: this.precoIngrediente
+                    } else {
+                        try {
+                            let ingrediente = {
+                                nome: this.nomeIngrediente,
+                                preco: this.precoIngrediente
+                            }
+
+                            const response = await fetch(`${API_URL}/ingredientes`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(ingrediente)
+                            });
+
+                            if (!response.ok) {
+                                const erro = await response.json();
+                                throw new Error(erro.mensagem);
+                            }
+
+                            this.$emit('request');
+                            window.alert("Ingrediente criado com sucesso!")
+                            this.fecharModal();
+
+                        } catch (error) {
+                            window.alert(error.message)
                         }
-                        
-                        const response = await fetch(`${API_URL}/ingredientes`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(ingrediente)
-                        });
-                        
-                        if (!response.ok) {
-                            const erro = await response.json();
-                            throw new Error(erro.mensagem);
-                        }
-                        
-                        this.$emit('request');
-                        window.alert("Ingrediente criado com sucesso!")
-                        this.fecharModal();
-                        
-                    } catch (error) {
-                        window.alert(error.message)
                     }
                 }
-            }
             } else {
                 window.alert("Preencha todos os campos.")
             }

@@ -20,7 +20,7 @@
                         </div>
                         <div class="card-footer-">
                             <div class="editar-excluir">
-                                <fa class="icone" icon="pen-to-square" @click="abrirModalIngrediente(ingrediente.id)"/>
+                                <fa class="icone" icon="pen-to-square" @click="abrirModalIngrediente(ingrediente.id)" />
                                 <fa class="icone" icon="trash" />
                             </div>
                             <span>{{ converterPreco(ingrediente.preco) }}</span>
@@ -75,7 +75,8 @@
                 </div>
             </div>
         </div>
-        <ModalCriarEditarIngrediente :is-active="this.exibindoModalIngrediente" @close="fecharModal()" @request="carregarIngredientes()" :idIngrediente="this.idDoIngredienteQueSeraEditado"/>
+        <ModalCriarEditarIngrediente :is-active="this.exibindoModalIngrediente" @close="fecharModal()"
+            @request="carregarIngredientes()" :idIngrediente="this.idDoIngredienteQueSeraEditado" />
     </div>
 </template>
 
@@ -161,7 +162,6 @@ export default {
 </script>
 
 <style scoped>
-
 .tela-de-admin {
     height: 89vh;
 }
@@ -173,7 +173,7 @@ export default {
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 
-.titulo-admin  > h2 {
+.titulo-admin>h2 {
     margin-bottom: 0px;
 }
 
@@ -275,4 +275,5 @@ h4 {
     flex-direction: row;
     align-items: center;
     gap: 5px;
-}</style>
+}
+</style>
