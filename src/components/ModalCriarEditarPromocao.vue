@@ -21,7 +21,12 @@
                         <input type="number" placeholder="0" v-model="descontoPromocao" @input="validarDesconto()" />
                     </label>
                 </div>
-                
+
+                <label>Descrição:
+                    <textarea v-model="descricaoPromocao">
+
+                    </textarea>
+                </label>
                 <h2>Selecione os lanches:</h2>
                 <div class="lista-de-ingredientes">
                     <div class="adicionar-remover-ingredientes" v-for="lanche in this.lanches">
@@ -43,7 +48,6 @@
                         @click="fecharModal()">Cancelar</button>
                     <button style="width: 100px;" @click="salvarPromocao()">Salvar</button>
                 </div>
-                <span class="preco">{{ converterPreco(this.precoTotal) }}</span>
             </footer>
         </div>
     </div>
@@ -76,8 +80,9 @@ export default {
     data() {
         return {
             nomePromocao: "",
-            precoPromocao: 0.00,
-            descontoPromocao: 0,
+            precoPromocao: null,
+            descontoPromocao: null,
+            descricaoPromocao: "",
             ingredientes: null,
             promocaoAntiga: {},
             precoTotal: 0.0,
@@ -88,9 +93,11 @@ export default {
 
     methods: {
         fecharModal() {
-            this.precoTotal = 0.0;
             this.nomePromocao = "";
-            this.lanchesNaPromocao = []
+            this.precoPromocao = null;
+            this.descontoPromocao = null;
+            this.descricaoPromocao = "";
+            this.lanchesNaPromocao = [];
             this.$emit('close');
             this.fechouModal = !this.fechouModal;
         },
@@ -207,24 +214,17 @@ export default {
         },
 
         aumentarPreco(preco, id) {
-            this.precoTotal += preco
             this.lanchesNaPromocao.push(id)
             console.log(this.lanchesNaPromocao)
         },
 
         diminuirPreco(preco, id) {
-            this.precoTotal -= preco
             for (var idDeLanche of this.lanchesNaPromocao) {
-                console.log(idDeLanche)
-                console.log(id)
                 if (idDeLanche == id) {
-                    console.log("encontrou")
                     var index = this.lanchesNaPromocao.indexOf(idDeLanche);
                     this.lanchesNaPromocao.splice(index, 1)
                 }
             }
-            console.log(this.lanchesNaPromocao)
-
         }
 
     },
@@ -256,6 +256,13 @@ h2 {
     font-weight: 500;
     font-family: 'Lobster', sans-serif;
     cursor: default;
+}
+
+textarea {
+    resize: none;
+    outline: none;
+    height: 70px;
+    padding: 5px;
 }
 
 .inserir-dados {
