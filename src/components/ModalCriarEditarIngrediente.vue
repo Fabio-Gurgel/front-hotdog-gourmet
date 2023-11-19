@@ -56,25 +56,34 @@ export default {
         },
 
         async salvarIngrediente() {
-            try {
-                let ingrediente = {
-                    nome: this.nomeIngrediente,
-                    preco: this.precoIngrediente
+            if (this.nomeIngrediente != "" && this.precoIngrediente != "") {
+                try {
+                    let ingrediente = {
+                        nome: this.nomeIngrediente,
+                        preco: this.precoIngrediente
+                    }
+
+                    const response = await fetch(`${API_URL}/ingredientes`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(ingrediente)
+                    });
+
+                    if (!response.ok) {
+                        const erro = await response.json();
+                        throw new Error(erro.mensagem);
+                    }
+
+                    this.$emit('request');
+                    this.fecharModal();
+
+                } catch (error) {
+                    window.alert(error.message)
                 }
-
-                await fetch(`${API_URL}/ingredientes`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(ingrediente)
-                });
-
-                this.$emit('request');
-                this.fecharModal();
-                
-            } catch (error) {
-                console.error('Erro ao obter dados do backend: ', error);
+            } else {
+                window.alert("Preencha todos os campos.")
             }
         },
 
