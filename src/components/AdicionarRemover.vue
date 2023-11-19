@@ -1,7 +1,7 @@
 <template>
     <div class="adicionar-remover">
         <button @click="diminuir()">-</button>
-        <span>{{ quantidade }}</span>
+        <span :id="this.idDoSpan">{{ quantidade }}</span>
         <button @click="aumentar()">+</button>
     </div>
 </template>
@@ -20,6 +20,10 @@ export default {
         fechou: {
             type: Boolean,
             default: false
+        },
+        idDoSpan: {
+            type: Number,
+            default: null
         }
     },
     methods: {
@@ -41,6 +45,10 @@ export default {
         fechou() {
             this.quantidade = 0
         }
+    },
+
+    created() {
+        console.log(this.idDoSpan)
     }
 };
 </script>

@@ -22,13 +22,15 @@
                             <h4>{{ ingrediente.nome }}</h4>
                             <span>{{ converterPreco(ingrediente.preco) }}</span>
                         </div>
-                        <AdicionarRemover :idDoSpan="ingrediente.id" @diminuirPreco="diminuirPreco(ingrediente.preco)"
-                            @aumentarPreco="aumentarPreco(ingrediente.preco)" :fechou="this.fechouModal"/>
+                        <AdicionarRemover :idDoSpan="ingrediente.id"
+                            @diminuirPreco="diminuirPreco(ingrediente.preco, ingrediente.id)"
+                            @aumentarPreco="aumentarPreco(ingrediente.preco, ingrediente.id)" :fechou="this.fechouModal" />
                     </div>
 
                 </div>
             </section>
-            <footer class="modal-card-foot" style="display: flex; flex-direction: row-reverse; justify-content: space-between;">
+            <footer class="modal-card-foot"
+                style="display: flex; flex-direction: row-reverse; justify-content: space-between;">
                 <div style="width: 220px; display: flex; justify-content: space-between;">
                     <button style="width: 100px; background-color: white; color: black;"
                         @click="fecharModal()">Cancelar</button>
@@ -70,8 +72,8 @@ export default {
             ingredientes: null,
             LancheAntigo: {},
             precoTotal: 0.0,
-            fechouModal: false
-
+            fechouModal: false,
+            ingredientesNoLanche: []
         }
     },
 
@@ -189,12 +191,22 @@ export default {
             return convertePreco(preco);
         },
 
-        aumentarPreco(preco) {
+        aumentarPreco(preco, id) {
             this.precoTotal += preco
+            this.ingredientesNoLanche.push(id);
         },
 
-        diminuirPreco(preco) {
-            this.precoTotal -= preco
+        diminuirPreco(preco, id) {
+            var elemento = document.getElementById(id);
+            var quantidade = elemento.textContent
+            this.precoTotal = preco * quantidade
+
+            this.ingredientesNoLanche = []
+
+            for (var i = 0; i < quantidade; i++) {
+                this.ingredientesNoLanche.push(id);
+            }
+            console.log(this.ingredientesNoLanche)
         }
 
     },
@@ -255,7 +267,7 @@ h2 {
     flex-direction: column;
 }
 
-.ingrediente-e-preco > span {
+.ingrediente-e-preco>span {
     color: var(--cor-terciaria);
     font-size: smaller;
 }
