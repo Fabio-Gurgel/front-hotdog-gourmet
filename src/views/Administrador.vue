@@ -165,7 +165,7 @@ export default {
                 window.alert("Ingrediente excluído com sucesso!");
 
             } catch (error) {
-                window.alert("Não é possível excluir excluir um ingrediente presente em um lanche.");
+                window.alert("Não é possível excluir um ingrediente presente em um lanche.");
             }
         },
 
