@@ -20,6 +20,7 @@ export default {
     async inserirDadosNoBack() {
       this.inserirIngredientes();
       this.inserirLanches();
+      this.inserirPromocoes();
     },
 
     async inserirIngredientes() {
@@ -89,7 +90,7 @@ export default {
           },
           body: JSON.stringify(ingrediente)
         });
-        
+
         ingrediente = {
           nome: "Purê de batata",
           preco: 1.00
@@ -114,6 +115,147 @@ export default {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify(ingrediente)
+        });
+
+        if (!response.ok) {
+          const erro = await response.json();
+          throw new Error(erro.mensagem);
+        }
+      } catch (error) {
+        console.log(error.message)
+      }
+    },
+
+    async inserirLanches() {
+
+      try {
+        let lanche = {
+          nome: "Completo com Linguiça",
+          ingredientes: [
+            { id: 1 },
+            { id: 2 },
+            { id: 3 },
+            { id: 5 },
+            { id: 6 },
+            { id: 7 }
+          ]
+        }
+
+        let response = await fetch(`${API_URL}/lanches`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(lanche)
+        });
+
+        lanche = {
+          nome: "Completo com Salsicha",
+          ingredientes: [
+            { id: 1 },
+            { id: 2 },
+            { id: 4 },
+            { id: 5 },
+            { id: 6 },
+            { id: 7 }
+          ]
+        }
+
+        response = await fetch(`${API_URL}/lanches`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(lanche)
+        });
+
+        lanche = {
+          nome: "Low carb completo",
+          ingredientes: [
+            { id: 4 },
+            { id: 2 },
+            { id: 3 },
+            { id: 5 },
+            { id: 6 },
+            { id: 7 }
+          ]
+        }
+
+        response = await fetch(`${API_URL}/lanches`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(lanche)
+        });
+
+        if (!response.ok) {
+          const erro = await response.json();
+          throw new Error(erro.mensagem);
+        }
+      } catch (error) {
+        console.log(error.message)
+      }
+    },
+
+    async inserirPromocoes() {
+
+      try {
+        let promocao = {
+          nome: "Completo + refrigerante 300ml",
+          descricao: "Cachorro quente completo(qualquer um dos dois) + acréscimo de R$ 3,00 referente ao refrigerante.",
+          preco: 9.90,
+          percentualDesconto: null,
+          lanches: [
+            { id: 1 },
+            { id: 2 }
+          ]
+        }
+
+        let response = await fetch(`${API_URL}/promocoes`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(promocao)
+        });
+
+        promocao = {
+          nome: "Completo + cerveja longneck",
+          descricao: "Cachorro quente completo(qualquer um dos dois) + acréscimo de R$ 6,00 referente a cerveja.",
+          preco: 12.90,
+          percentualDesconto: null,
+          lanches: [
+            { id: 1 },
+            { id: 2 }
+          ]
+        }
+
+        response = await fetch(`${API_URL}/promocoes`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(promocao)
+        });
+
+        promocao = {
+          nome: "2 Completos",
+          descricao: "Dois cachorros quentes completos com descontos de 10%",
+          preco: null,
+          percentualDesconto: 10,
+          lanches: [
+            { id: 1 },
+            { id: 2 }
+          ]
+        }
+
+        response = await fetch(`${API_URL}/promocoes`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(promocao)
         });
 
         if (!response.ok) {
