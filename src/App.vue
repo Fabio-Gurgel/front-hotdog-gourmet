@@ -1,24 +1,210 @@
 <template>
   <div>
-    <HeaderComponent v-if="!$route.meta.esconderHeader"/>
-    <RouterView/>
+    <HeaderComponent v-if="!$route.meta.esconderHeader" />
+    <RouterView />
   </div>
 </template>
 
 <script>
 
 import HeaderComponent from '../src/components/Header.vue'
+import API_URL from './service/API_URL';
 
 export default {
   name: 'App',
   components: {
     HeaderComponent
+  },
+
+  methods: {
+    async inserirDadosNoBack() {
+      this.inserirIngredientes();
+      this.inserirLanches();
+    },
+
+    async inserirIngredientes() {
+
+      try {
+        let ingrediente = {
+          nome: "Pão",
+          preco: 2.00
+        }
+
+        let response = await fetch(`${API_URL}/ingredientes`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(ingrediente)
+        });
+
+        ingrediente = {
+          nome: "Batata palha",
+          preco: 0.40
+        }
+
+        response = await fetch(`${API_URL}/ingredientes`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(ingrediente)
+        });
+
+        ingrediente = {
+          nome: "Linguiça",
+          preco: 3.00
+        }
+
+        response = await fetch(`${API_URL}/ingredientes`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(ingrediente)
+        });
+
+        ingrediente = {
+          nome: "Salsicha",
+          preco: 2.00
+        }
+
+        response = await fetch(`${API_URL}/ingredientes`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(ingrediente)
+        });
+
+        ingrediente = {
+          nome: "Ovo de codorna",
+          preco: 0.30
+        }
+
+        response = await fetch(`${API_URL}/ingredientes`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(ingrediente)
+        });
+        
+        ingrediente = {
+          nome: "Purê de batata",
+          preco: 1.00
+        }
+
+        response = await fetch(`${API_URL}/ingredientes`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(ingrediente)
+        });
+
+        ingrediente = {
+          nome: "Milho",
+          preco: 0.20
+        }
+
+        response = await fetch(`${API_URL}/ingredientes`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(ingrediente)
+        });
+
+        if (!response.ok) {
+          const erro = await response.json();
+          throw new Error(erro.mensagem);
+        }
+      } catch (error) {
+        console.log(error.message)
+      }
+    },
+
+    async inserirLanches() {
+
+      try {
+        let lanche = {
+          nome: "Completo com Linguiça",
+          ingredientes: [
+            { id: 1 },
+            { id: 2 },
+            { id: 3 },
+            { id: 5 },
+            { id: 6 },
+            { id: 7 }
+          ]
+        }
+
+        let response = await fetch(`${API_URL}/lanches`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(lanche)
+        });
+
+        lanche = {
+          nome: "Completo com Salsicha",
+          ingredientes: [
+            { id: 1 },
+            { id: 2 },
+            { id: 4 },
+            { id: 5 },
+            { id: 6 },
+            { id: 7 }
+          ]
+        }
+
+        response = await fetch(`${API_URL}/lanches`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(lanche)
+        });
+
+        lanche = {
+          nome: "Low carb completo",
+          ingredientes: [
+            { id: 4 },
+            { id: 2 },
+            { id: 3 },
+            { id: 5 },
+            { id: 6 },
+            { id: 7 }
+          ]
+        }
+
+        response = await fetch(`${API_URL}/lanches`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(lanche)
+        });
+
+        if (!response.ok) {
+          const erro = await response.json();
+          throw new Error(erro.mensagem);
+        }
+      } catch (error) {
+        console.log(error.message)
+      }
+    }
+  },
+
+  created() {
+    this.inserirDadosNoBack();
   }
 }
 </script>
 
 <style>
-
 @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 
 :root {
@@ -70,5 +256,4 @@ button:hover {
 header {
   background-color: var(--cor-primaria);
 }
-
 </style>
